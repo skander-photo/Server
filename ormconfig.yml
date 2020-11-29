@@ -1,0 +1,6 @@
+default:
+  type: sqlite
+  database: db/skander-photo.db
+  synchronize: true
+  entities:
+    - src/models/**/*.ts
