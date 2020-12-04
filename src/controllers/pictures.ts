@@ -3,10 +3,19 @@ import { StatusCodes } from 'http-status-codes';
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 
-class PicturesResource {
+class PicturesController {
   albumRepository = getRepository(Album);
 
-  getAllByAlbum = async (req: Request, res: Response) => {
+  getPicturesByAlbumView = async (req: Request, res: Response) => {
+    const albumId = req.params.id;
+    const album = await this.albumRepository.findOne(albumId, {
+      relations: ['pictures'],
+    });
+    return res.render('pictures/by-album', { album });
+  };
+
+  // API Calls
+  getAllPicturesByAlbum = async (req: Request, res: Response) => {
     const { albumId } = req.params;
     try {
       const album = await this.albumRepository.findOne(albumId, {
@@ -23,4 +32,4 @@ class PicturesResource {
   };
 }
 
-export const picturesResource = new PicturesResource();
+export const picturesController = new PicturesController();

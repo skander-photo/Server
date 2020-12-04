@@ -1,4 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, IsNull } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  ManyToOne,
+  IsNull,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm';
 import { Category } from './category';
 import { Picture } from './picture';
 
@@ -13,8 +22,9 @@ export class Album {
   @Column({ nullable: true })
   subtitle: string;
 
-  @Column({ nullable: true })
-  coverImagePath: string;
+  @OneToOne(() => Picture)
+  @JoinColumn()
+  coverPicture: Picture;
 
   @OneToMany(() => Picture, (picture) => picture.album, { cascade: true })
   pictures: Picture[];

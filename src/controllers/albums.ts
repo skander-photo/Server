@@ -4,9 +4,27 @@ import { StatusCodes } from 'http-status-codes';
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 
-class AlbumsResource {
+class AlbumsController {
   categoryRepository = getRepository(Category);
   albumRepository = getRepository(Album);
+
+  getEditView = async (req: Request, res: Response) => {
+    const id = req.params.id;
+    try {
+      const albumPromise = this.albumRepository.findOne(id, { relations: ['category'] });
+      const categoriesPromise = this.categoryRepository.find();
+      const [album, categories] = await Promise.all([albumPromise, categoriesPromise]);
+      return res.render('albums/edit', { album, categories });
+    } catch (err) {
+      console.log(err);
+      return res.redirect('/');
+    }
+  };
+
+  update = async (req: Request, res: Request) => {
+    const { id } = req.body;
+    console.log(req.body);
+  };
 
   create = async (req: Request, res: Response) => {
     const { categoryId } = req.body;
@@ -31,4 +49,4 @@ class AlbumsResource {
   };
 }
 
-export const albumsResource = new AlbumsResource();
+export const albumsController = new AlbumsController();

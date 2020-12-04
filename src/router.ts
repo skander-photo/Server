@@ -1,19 +1,23 @@
-import { picturesResource } from './resources/pictures';
-import { categoriesResource } from './resources/categories';
-import { albumsResource } from './resources/albums';
+import { picturesController } from './controllers/pictures';
+import { categoriesController } from './controllers/categories';
+import { albumsController } from './controllers/albums';
 import { Router } from 'express';
 
+///// API
+export const apiRouter = Router();
+apiRouter.get('/categories', categoriesController.getAllCategories);
+apiRouter.get('/pictures/:albumId', picturesController.getAllPicturesByAlbum);
+
+///// Classic Router (management only)
 export const router = Router();
-
-router.get('/', (req, res) => res.send('hello'));
-
+router.get('/', (req, res) => res.redirect('/categories'));
 // Categories
-router.get('/categories', categoriesResource.getAll);
-router.post('/categories', categoriesResource.create);
-router.put('/categories', categoriesResource.update);
-
+router.get('/categories', categoriesController.getIndexView);
+router.get('/categories/new', categoriesController.getNewView);
+router.post('/categories/new', categoriesController.create);
 // Albums
-router.post('/albums', albumsResource.create);
-
+router.get('/albums/edit/:id', albumsController.getEditView);
+router.post('/albums/update', albumsController.update);
+router.post('/albums/new', albumsController.create);
 // Pictures
-router.get('/pictures/:albumId', picturesResource.getAllByAlbum);
+router.get('/albums/:id/pictures', picturesController.getPicturesByAlbumView);
