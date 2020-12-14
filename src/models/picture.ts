@@ -1,16 +1,17 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, Unique } from 'typeorm';
 import { Album } from './album';
 
 @Entity()
+@Unique('album_picture', ['album', 'fileNameLarge'])
 export class Picture {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  largePath: string;
+  fileNameLarge: string;
 
   @Column()
-  thumbnailPath: string;
+  fileNameThumbnail: string;
 
   @ManyToOne(() => Album, (album) => album.pictures)
   album: Album;

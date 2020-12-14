@@ -1,6 +1,9 @@
 node_modules/
 dist/
 db/
+uploads/*.jpg
+uploads/*.png
 .log
 .cache
 .env
+.DS_STORE

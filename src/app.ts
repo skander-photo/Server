@@ -2,7 +2,7 @@ import * as express from 'express';
 import * as morgan from 'morgan';
 import * as cors from 'cors';
 import { join, resolve } from 'path';
-import { PORT } from './config';
+import { PORT, UPLOADS_PATH } from './config';
 import { createConnection } from 'typeorm';
 
 // Setup database first
@@ -11,7 +11,9 @@ createConnection().then(async () => {
 
   app.set('views', join(__dirname, 'views'));
   app.set('view engine', 'hbs');
+
   app.use(express.static(resolve('public')));
+  app.use('/uploads', express.static(UPLOADS_PATH));
 
   app.use(cors());
   app.use(express.json());

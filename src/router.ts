@@ -1,6 +1,7 @@
 import { picturesController } from './controllers/pictures';
 import { categoriesController } from './controllers/categories';
 import { albumsController } from './controllers/albums';
+import { uploader } from './utils/uploader';
 import { Router } from 'express';
 
 ///// API
@@ -21,3 +22,4 @@ router.post('/albums/update', albumsController.update);
 router.post('/albums/new', albumsController.create);
 // Pictures
 router.get('/albums/:id/pictures', picturesController.getPicturesByAlbumView);
+router.post('/pictures/upload', uploader.array('pictures'), picturesController.upload);

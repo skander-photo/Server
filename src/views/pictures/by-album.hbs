@@ -4,23 +4,22 @@
   <a href="/">Back to categories</a>
 </p>
 <hr>
-<form action="/pictures/upload" method="post">
+<form action="/pictures/upload" method="post" enctype="multipart/form-data">
   <label>Upload pictures</label>
+  <input type="hidden" name="albumId" value="{{album.id}}">
   <input type="file" name="pictures" accept="image/*" multiple>
+  <button type="submit">Upload</button>
 </form>
+<hr>
 <div class="gallery">
-  {{!-- {{#each album.pictures}} --}}
+  {{#each album.pictures}}
   <div>
-    <img src="{{thumbnailPath}}" />
+    <img src="/uploads/{{fileNameThumbnail}}" />
     <span class="picId hidden">{{id}}</span>
     <div>
       <button id="btnPicSetCover">Album cover</button>
       <button id="btnPicDelete">Delete</button>
     </div>
   </div>
-  {{!-- {{/each}} --}}
+  {{/each}}
 </div>
-
-<style>
-
-</style>
