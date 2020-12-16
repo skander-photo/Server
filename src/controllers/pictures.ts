@@ -17,7 +17,7 @@ class PicturesController {
     const album = await this.albumRepository.findOne(albumId, {
       relations: ['pictures'],
     });
-    return res.render('pictures/by-album', { album });
+    return res.render('albums/pictures', { album });
   };
 
   upload = async (req: Request, res: Response) => {
