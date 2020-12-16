@@ -6,7 +6,7 @@
 <hr>
 <form action="/pictures/upload" method="post" enctype="multipart/form-data">
   <label>Upload pictures</label>
-  <input type="hidden" name="albumId" value="{{album.id}}">
+  <input id="albumId" type="hidden" name="albumId" value="{{album.id}}">
   <input type="file" name="pictures" accept="image/*" multiple>
   <button type="submit">Upload</button>
 </form>
@@ -15,11 +15,28 @@
   {{#each album.pictures}}
   <div>
     <img src="/uploads/{{fileNameThumbnail}}" />
-    <span class="picId hidden">{{id}}</span>
     <div>
-      <button id="btnPicSetCover">Album cover</button>
-      <button id="btnPicDelete">Delete</button>
+      <button class="btnSetAsAlbumCover" value="{{id}}">Album cover</button>
+      <button class="btndeletePicture" value="{{id}}" onclick="deletePicture(event)">Delete</button>
     </div>
   </div>
   {{/each}}
 </div>
+
+<script>
+  function deletePicture(e) {
+    const picId = e.target.value;
+    if (!picId) return;
+
+    if (confirm("Confirm picture delete?")) {
+      fetch('http://localhost:5000/pictures/delete', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ picId })
+      }).then((e) => location.reload());
+    }
+  }
+</script>

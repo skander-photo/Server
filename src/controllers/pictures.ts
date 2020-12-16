@@ -4,6 +4,9 @@ import { StatusCodes } from 'http-status-codes';
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 import { generateThumbnail } from '../utils/thumbnail-generator';
+import { UPLOADS_PATH } from '../config';
+import { join } from 'path';
+import { unlink  } from 'fs/promises';
 
 class PicturesController {
   albumRepository = getRepository(Album);
@@ -38,6 +41,27 @@ class PicturesController {
 
     return res.redirect(`/albums/${albumId}/pictures`);
   }
+
+  delete = async (req: Request, res: Response) => {
+    const { picId } = req.body;
+    try {
+      const picture = await this.pictureRepository.findOne(picId);
+      if (picture) {
+        // delete from db
+        const deleteFromDb = this.pictureRepository.delete(picId);
+        // delete from hard drive
+        const orignalPath = join(UPLOADS_PATH, picture.fileNameLarge);
+        const deleteOriginalFile = unlink(orignalPath);
+        const thumbailPath = join(UPLOADS_PATH, picture.fileNameThumbnail);
+        const deleteThumbnail = unlink(thumbailPath);
+
+        await Promise.all([deleteFromDb, deleteOriginalFile, deleteThumbnail]);
+        return res.sendStatus(200);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   // API Calls
   getAllPicturesByAlbum = async (req: Request, res: Response) => {

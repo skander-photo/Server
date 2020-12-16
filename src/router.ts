@@ -23,3 +23,4 @@ router.post('/albums/new', albumsController.create);
 // Pictures
 router.get('/albums/:id/pictures', picturesController.getPicturesByAlbumView);
 router.post('/pictures/upload', uploader.array('pictures'), picturesController.upload);
+router.post('/pictures/delete', picturesController.delete);
