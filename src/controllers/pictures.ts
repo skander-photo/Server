@@ -27,7 +27,8 @@ class PicturesController {
       const uploadedFiles = req.files as Express.Multer.File[];
       if (uploadedFiles && uploadedFiles.length > 0) {
         // Create thumbnails foreach uploaded files
-        const thumbnails = uploadedFiles.map(file => generateThumbnail(file.path, file.filename));
+        const generateThumbnails = uploadedFiles.map(file => generateThumbnail(file.path, file.filename));
+        const thumbnails = await Promise.all(generateThumbnails);
         const pictures = thumbnails.map((fileNameThumbnail, index) => ({
           fileNameLarge: uploadedFiles[index].filename,
           fileNameThumbnail,
