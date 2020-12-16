@@ -22,7 +22,7 @@ export class Album {
   @Column({ nullable: true })
   subtitle: string;
 
-  @OneToOne(() => Picture)
+  @OneToOne(() => Picture, { onDelete: 'SET NULL'})
   @JoinColumn()
   coverPicture: Picture;
 

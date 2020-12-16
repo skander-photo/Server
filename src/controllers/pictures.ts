@@ -39,7 +39,7 @@ class PicturesController {
       console.log(err);
     }
 
-    return res.redirect(`/albums/${albumId}/pictures`);
+    res.redirect('back');
   }
 
   delete = async (req: Request, res: Response) => {
@@ -56,7 +56,7 @@ class PicturesController {
         const deleteThumbnail = unlink(thumbailPath);
 
         await Promise.all([deleteFromDb, deleteOriginalFile, deleteThumbnail]);
-        return res.sendStatus(200);
+        return res.sendStatus(StatusCodes.OK);
       }
     } catch (err) {
       console.log(err);

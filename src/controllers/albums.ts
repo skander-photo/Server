@@ -47,6 +47,12 @@ class AlbumsController {
       res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(err.message);
     }
   };
+
+  setCover = async (req: Request, res: Response) => {
+    const { albumId, picId } = req.body;
+    await this.albumRepository.update({ id: albumId}, { coverPicture: picId});
+    return res.sendStatus(StatusCodes.OK);
+  }
 }
 
 export const albumsController = new AlbumsController();

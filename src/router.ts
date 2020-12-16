@@ -20,6 +20,7 @@ router.post('/categories/new', categoriesController.create);
 router.get('/albums/edit/:id', albumsController.getEditView);
 router.post('/albums/update', albumsController.update);
 router.post('/albums/new', albumsController.create);
+router.post('/albums/cover', albumsController.setCover);
 // Pictures
 router.get('/albums/:id/pictures', picturesController.getPicturesByAlbumView);
 router.post('/pictures/upload', uploader.array('pictures'), picturesController.upload);
