@@ -15,7 +15,10 @@ router.get('/', (req, res) => res.redirect('/categories'));
 // Categories
 router.get('/categories', categoriesController.getIndexView);
 router.get('/categories/new', categoriesController.getNewView);
-router.post('/categories/new', categoriesController.create);
+router.post('/categories/create', categoriesController.create);
+router.get('/categories/edit/:id', categoriesController.getEditView);
+router.post('/categories/update', categoriesController.update);
+router.get('/categories/delete/:id', categoriesController.delete);
 // Albums
 router.get('/albums/edit/:id', albumsController.getEditView);
 router.post('/albums/update', albumsController.update);

@@ -1,0 +1,29 @@
+<label>Category Name</label>
+<input type="hidden" name="id" value="<%= id %>">
+<input type="text" placeholder="Name" name="name" required value="<%= name %>">
+<div class="row">
+  <h3>Albums</h3>
+  <div class="albums">
+  <% if (albums) { %>
+    <% albums.forEach(album => { %>
+      <input type="hidden" name="albumIds" value="<%= album.id %>">
+      <input type="text" placeholder="Album Title" name="albums" value="<%= album.title %>">
+    <% }) %>
+  <% } %>
+  </div>
+  <button onclick="addAlbum(event)">Add</button>
+</div>
+<hr>
+<button type="submit">Save</button>
+
+<script>
+  function addAlbum(e) {
+    e.preventDefault();
+    const albums = document.querySelector('.albums');
+    const input = document.createElement('input');
+    input.placeholder = 'Album title';
+    input.name = 'albums';
+    albums.appendChild(input);
+    input.focus();
+  }
+</script>

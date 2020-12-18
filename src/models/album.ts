@@ -29,6 +29,6 @@ export class Album {
   @OneToMany(() => Picture, (picture) => picture.album, { cascade: true })
   pictures: Picture[];
 
-  @ManyToOne(() => Category, (category) => category.albums)
+  @ManyToOne(() => Category, (category) => category.albums, { onDelete: 'SET NULL'})
   category: Category;
 }
