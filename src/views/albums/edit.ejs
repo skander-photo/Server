@@ -13,7 +13,15 @@
     <label>Category</label>
     <select name="category">
       <% categories.forEach(category => { %>
-        <option value="<%= category.id %>"><%= category.name %></option>
+        <% if (category.isSelected) { %>
+          <option value="<%= category.id %>" selected>
+            <%= category.name %>
+          </option>
+        <% } else { %>
+          <option value="<%= category.id %>">
+            <%= category.name %>
+          </option>
+        <% } %>
       <% }) %>
     </select>
     <p>
@@ -22,6 +30,6 @@
   </form>
 </div>
 <p>
-  <a href="/albums/<%= album.id%>/pictures">Manage pictures</a>
+  <a href="/albums/<%= album.id%>/pictures">Manage pictures (<%= album.pictures.length %>)</a>
 </p>
 </div>

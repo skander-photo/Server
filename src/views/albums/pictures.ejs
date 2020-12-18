@@ -1,16 +1,14 @@
-<h1>Manage pictures</h1>
+<h1>Manage pictures (<%= album.pictures.length %>)</h1>
 <h3>Album: <%= album.title %></h3>
 <p>
-  <a href="/">Back to categories</a>
+  <a href="/albums/edit/<%= album.id %>">Back to album </a>
 </p>
-<hr>
 <form action="/pictures/upload" method="post" enctype="multipart/form-data">
   <label>Upload pictures</label>
   <input id="albumId" type="hidden" name="albumId" value="<%= album.id %>">
   <input type="file" name="pictures" accept="image/*" multiple>
   <button type="submit">Upload</button>
 </form>
-<hr>
 <div class="gallery">
   <% album.pictures.forEach(picture => { %>
     <div>

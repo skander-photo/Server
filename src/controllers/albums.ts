@@ -11,10 +11,15 @@ class AlbumsController {
   getEditView = async (req: Request, res: Response) => {
     const id = req.params.id;
     try {
-      const albumPromise = this.albumRepository.findOne(id, { relations: ['category'] });
+      const albumPromise = this.albumRepository.findOne(id, { relations: ['category', 'pictures'] });
       const categoriesPromise = this.categoryRepository.find();
       const [album, categories] = await Promise.all([albumPromise, categoriesPromise]);
-      return res.render('albums/edit', { album, categories });
+      const categoriesWithSelection = categories.map(cat => ({
+        ...cat,
+        isSelected: cat.id === album.category.id
+      }));
+      console.log(categoriesWithSelection);
+      return res.render('albums/edit', { album, categories: categoriesWithSelection });
     } catch (err) {
       console.log(err);
       return res.redirect('/');
