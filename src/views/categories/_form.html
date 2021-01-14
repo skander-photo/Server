@@ -1,0 +1,15 @@
+<input type="hidden" name="id" value="{{id}}">
+<label>Category Name</label>
+<input type="text" placeholder="Name" name="name" value="{{name}}" required />
+<div class="row">
+  <h3>Albums</h3>
+  <div class="albums">
+    {% for album in albums %}
+      <input type="hidden" name="albumIds" value="{{album.id}}">
+      <input type="text" placeholder="Album Title" name="albums" value="{{album.title}}">
+    {% endfor %}
+  </div>
+  <button onclick="addAlbumInput(event)">Add</button>
+</div>
+<hr>
+<button type="submit">Save</button>

@@ -1,30 +1,12 @@
-import { picturesController } from './controllers/pictures';
-import { categoriesController } from './controllers/categories';
-import { albumsController } from './controllers/albums';
-import { uploader } from './utils/uploader';
 import { Router } from 'express';
+import { categoriesController } from './controllers/categories-controller';
 
-///// API
-export const apiRouter = Router();
-apiRouter.get('/categories', categoriesController.getAllCategories);
-apiRouter.get('/pictures/:albumId', picturesController.getAllPicturesByAlbum);
-
-///// Classic Router (management only)
 export const router = Router();
-router.get('/', (req, res) => res.redirect('/categories'));
+
+// Home page
+router.get('/', categoriesController.indexView);
+
 // Categories
-router.get('/categories', categoriesController.getIndexView);
-router.get('/categories/new', categoriesController.getNewView);
+router.get('/categories', categoriesController.indexView);
+router.get('/categories/new', categoriesController.newView);
 router.post('/categories/create', categoriesController.create);
-router.get('/categories/edit/:id', categoriesController.getEditView);
-router.post('/categories/update', categoriesController.update);
-router.get('/categories/delete/:id', categoriesController.delete);
-// Albums
-router.get('/albums/edit/:id', albumsController.getEditView);
-router.post('/albums/update', albumsController.update);
-router.post('/albums/new', albumsController.create);
-router.post('/albums/cover', albumsController.setCover);
-// Pictures
-router.get('/albums/:id/pictures', picturesController.getPicturesByAlbumView);
-router.post('/pictures/upload', uploader.array('pictures'), picturesController.upload);
-router.post('/pictures/delete', picturesController.delete);

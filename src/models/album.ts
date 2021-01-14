@@ -22,13 +22,13 @@ export class Album {
   @Column({ nullable: true })
   subtitle: string;
 
-  @OneToOne(() => Picture, { onDelete: 'SET NULL'})
+  @OneToOne(() => Picture, { onDelete: 'SET NULL', nullable: true })
   @JoinColumn()
   coverPicture: Picture;
 
   @OneToMany(() => Picture, (picture) => picture.album, { cascade: true })
   pictures: Picture[];
 
-  @ManyToOne(() => Category, (category) => category.albums, { onDelete: 'SET NULL'})
+  @ManyToOne(() => Category, (category) => category.albums, { onDelete: 'SET NULL' })
   category: Category;
 }
