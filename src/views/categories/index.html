@@ -9,7 +9,9 @@
     <li>
       {{ category.name }}
       <a href="/categories/edit/{{category.id}}">Edit</a>
-      <a href="/categories/delete/{{category.id}}">Delete</a>
+      <a href="/categories/delete/{{category.id}}" onclick="return confirm('Confirm delete?')">
+        Delete
+      </a>
       <ul>
         {% for album in category.albums %}
           <li>Album: <a href="/albums/edit/{{album.id}}">{{album.title}}</a></li>

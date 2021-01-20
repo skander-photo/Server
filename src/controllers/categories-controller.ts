@@ -10,6 +10,9 @@ class CategoriesController {
   indexView = async (req: Request, res: Response) => {
     const categories = await this.categoryRepository.find({
       relations: ['albums'],
+      order: {
+        name: 'ASC',
+      },
     });
 
     return res.render('categories/index', { categories });
@@ -35,10 +38,13 @@ class CategoriesController {
           albumTitles = [albumTitles];
         }
 
-        const albums = albumTitles.map((title) => ({
-          title,
-          category: category.id,
-        }));
+        // Remove empty elements from array then create Album object
+        const albums = albumTitles
+          .filter((album) => album)
+          .map((title) => ({
+            title,
+            category: category.id,
+          }));
 
         await this.albumRepository.save(albums);
       }
@@ -48,6 +54,34 @@ class CategoriesController {
       console.log(err);
       return res.render('categories/new', { error: err });
     }
+  };
+
+  editView = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    if (!id) return;
+
+    const category = await this.categoryRepository.findOne(id, {
+      relations: ['albums'],
+    });
+
+    return res.render('categories/edit', { category });
+  };
+
+  update = async (req: Request, res: Response) => {
+    try {
+      // TODO: update albums
+      await this.categoryRepository.update(req.body.id, { ...req.body });
+      return res.redirect('/');
+    } catch (err) {
+      console.log(err);
+      return res.render('categories/edit', { category: req.body, error: err });
+    }
+  };
+
+  delete = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    await this.categoryRepository.delete(id);
+    return res.redirect('back');
   };
 }
 

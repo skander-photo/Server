@@ -4,10 +4,6 @@ nav {
   justify-content: space-between;
 }
 
-.error {
-  color: #f00;
-}
-
 /* Categories */
 
 .album {
@@ -20,4 +16,12 @@ nav {
   display: block;
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+.error {
+  color: #f00;
+}
+
+.warning {
+  color: #ffd75f;
 }

@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>Edit album: {{album.name}}</h1>
+<a href="/albums" class="spacy">Back to albums</a>
+
+<form method="post" action="/albums/update">
+{% include "albums/_form.html" %}
+</form>
+{% endblock content %}
