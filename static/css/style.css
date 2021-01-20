@@ -1,0 +1,23 @@
+/* Layout */
+nav {
+  display: flex;
+  justify-content: space-between;
+}
+
+.error {
+  color: #f00;
+}
+
+/* Categories */
+
+.album {
+  display: flex;
+}
+
+/* = = = Helpers  = = = */
+
+.spacy {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
