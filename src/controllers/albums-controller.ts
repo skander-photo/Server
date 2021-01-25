@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { getRepository, IsNull, Not } from 'typeorm';
 import { Album } from '../models/album';
 import { Category } from '../models/category';
+import { StatusCodes } from 'http-status-codes';
 
 class AlbumsController {
   albumRepository = getRepository(Album);
@@ -47,7 +48,7 @@ class AlbumsController {
       const album = await this.albumRepository.findOne(id, {
         relations: ['category', 'pictures'],
       });
-      const categories = await this.getCategoriesWithSelection();
+      const categories = await this.getCategoriesWithSelection(album);
       return res.render('albums/edit', { album, categories });
     } catch (err) {
       return res.render('/albums', { error: err });
@@ -57,6 +58,17 @@ class AlbumsController {
   update = async (req: Request, res: Response) => {};
 
   delete = async (req: Request, res: Response) => {};
+
+  setCover = async (req: Request, res: Response) => {
+    const { albumId, picId } = req.body;
+    try {
+      await this.albumRepository.update({ id: albumId }, { coverPicture: picId });
+      return res.sendStatus(StatusCodes.OK);
+    } catch (err) {
+      console.log(err);
+      return res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+  };
 
   private getCategoriesWithSelection = async (album?: Album) => {
     const categories = await this.categoryRepository.find();

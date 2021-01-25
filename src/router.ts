@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import { albumsController } from './controllers/albums-controller';
 import { categoriesController } from './controllers/categories-controller';
+import { picturesController } from './controllers/pictures-controller';
+import { uploader } from './utils/uploader';
 
 export const router = Router();
 
@@ -22,3 +24,9 @@ router.post('/albums/create', albumsController.create);
 router.get('/albums/edit/:id', albumsController.editView);
 router.post('/albums/update', albumsController.update);
 router.get('/albums/delete/:id', albumsController.delete);
+router.post('/albums/cover', albumsController.setCover);
+
+// Pictures
+router.get('/pictures/:albumId', picturesController.indexView);
+router.post('/pictures/upload', uploader.array('pictures'), picturesController.upload);
+router.post('/pictures/delete', picturesController.delete);

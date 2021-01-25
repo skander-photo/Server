@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>Manage pictures ({{album.pictures.length}})</h1>
+<h3>Album: {{album.title}}</h3>
+<p>
+  <a href="/albums/edit/{{album.id}}" class="spacy">Back to album </a>
+</p>
+<form action="/pictures/upload" method="post" enctype="multipart/form-data">
+  <label>Upload pictures</label>
+  <input type="hidden" id="albumId" name="albumId" value="{{album.id}}">
+  <input type="file" name="pictures" accept="image/*" multiple>
+  <button class="spacy" type="submit">Upload</button>
+</form>
+<hr>
+<div class="gallery">
+  {% for picture in album.pictures %}
+    <div>
+      <img src="/uploads/{{picture.fileNameThumbnail}}" />
+      <div>
+        <button class="btnSetAsAlbumCover" value="{{picture.id}}" onclick="setAsAlbumCover(event)">Album cover</button>
+        <button class="btndeletePicture" value="{{picture.id}}" onclick="deletePicture(event)">Delete</button>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endblock content %}

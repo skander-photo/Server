@@ -4,13 +4,26 @@ nav {
   justify-content: space-between;
 }
 
+input,
+select {
+  width: 100%;
+}
+
 /* Categories */
 
 .album {
   display: flex;
 }
 
-/* = = = Helpers  = = = */
+/* Albums */
+
+.gallery {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-gap: 16px;
+}
+/* Helpers */
 
 .spacy {
   display: block;
