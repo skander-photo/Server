@@ -55,7 +55,15 @@ class AlbumsController {
     }
   };
 
-  update = async (req: Request, res: Response) => {};
+  update = async (req: Request, res: Response) => {
+    try {
+      await this.albumRepository.update(req.body.id, { ...req.body });
+      return res.redirect('back');
+    } catch (err) {
+      console.log(err);
+      return res.render(`albums/edit`, { album: req.body, error: err });
+    }
+  };
 
   delete = async (req: Request, res: Response) => {};
 
