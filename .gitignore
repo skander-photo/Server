@@ -6,5 +6,5 @@ uploads/*.jpg
 uploads/*.png
 .log
 .cache
-.env
+*.env
 .DS_STORE

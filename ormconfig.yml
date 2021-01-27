@@ -1,6 +1,0 @@
-default:
-  type: sqlite
-  database: db.sqlite3
-  synchronize: true
-  entities:
-    - src/models/**/*.ts

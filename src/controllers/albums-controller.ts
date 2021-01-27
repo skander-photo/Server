@@ -36,9 +36,13 @@ class AlbumsController {
     return res.render('albums/index', { albumsWithCategory, albumsWithoutCategory });
   };
 
-  newView = async (req: Request, res: Response) => {};
+  newView = async (req: Request, res: Response) => {
+    // TODO
+  };
 
-  create = async (req: Request, res: Response) => {};
+  create = async (req: Request, res: Response) => {
+    // TODO
+  };
 
   editView = async (req: Request, res: Response) => {
     const { id } = req.params;
@@ -65,7 +69,9 @@ class AlbumsController {
     }
   };
 
-  delete = async (req: Request, res: Response) => {};
+  delete = async (req: Request, res: Response) => {
+    // TODO
+  };
 
   setCover = async (req: Request, res: Response) => {
     const { albumId, picId } = req.body;
