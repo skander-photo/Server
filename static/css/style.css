@@ -1,0 +1,40 @@
+/* Layout */
+nav {
+  display: flex;
+  justify-content: space-between;
+}
+
+input,
+select {
+  width: 100%;
+}
+
+/* Categories */
+
+.album {
+  display: flex;
+}
+
+/* Albums */
+
+.gallery {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-gap: 16px;
+}
+/* Helpers */
+
+.spacy {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.error {
+  color: #f00;
+}
+
+.warning {
+  color: #ffd75f;
+}

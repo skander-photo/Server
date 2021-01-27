@@ -1,49 +1,51 @@
+import { Request, Response } from 'express';
+import { generateThumbnail } from '../utils/thumbnail-generator';
+import { getRepository } from 'typeorm';
 import { Album } from '../models/album';
 import { Picture } from '../models/picture';
 import { StatusCodes } from 'http-status-codes';
-import { Request, Response } from 'express';
-import { getRepository } from 'typeorm';
-import { generateThumbnail } from '../utils/thumbnail-generator';
-import { UPLOADS_PATH } from '../config';
 import { join } from 'path';
-import { unlink  } from 'fs/promises';
+import { UPLOADS_PATH } from '../config';
+import { unlink } from 'fs/promises';
 
 class PicturesController {
   albumRepository = getRepository(Album);
   pictureRepository = getRepository(Picture);
 
-  getPicturesByAlbumView = async (req: Request, res: Response) => {
-    const albumId = req.params.id;
+  indexView = async (req: Request, res: Response) => {
+    const { albumId } = req.params;
     const album = await this.albumRepository.findOne(albumId, {
       relations: ['pictures'],
     });
-    return res.render('albums/pictures', { album });
+    return res.render('pictures/index', { album });
   };
 
   upload = async (req: Request, res: Response) => {
     const { albumId } = req.body;
-
     try {
       const uploadedFiles = req.files as Express.Multer.File[];
-      if (uploadedFiles && uploadedFiles.length > 0) {
+      if (uploadedFiles && uploadedFiles.length > 0) {
         // Create thumbnails foreach uploaded files
-        const generateThumbnails = uploadedFiles.map(file => generateThumbnail(file.path, file.filename));
+        const generateThumbnails = uploadedFiles.map((file) =>
+          generateThumbnail(file.path, file.filename)
+        );
         const thumbnails = await Promise.all(generateThumbnails);
-        const pictures = thumbnails.map((fileNameThumbnail, index) => ({
+
+        const pictures = thumbnails.map((fileNameThumbnail, index) => ({
           fileNameLarge: uploadedFiles[index].filename,
           fileNameThumbnail,
           album: albumId,
         }));
         await this.pictureRepository.save(pictures);
       }
+      return res.redirect('back');
     } catch (err) {
       console.log(err);
+      return res.render('pictures/index', { error: err });
     }
+  };
 
-    res.redirect('back');
-  }
-
-  delete = async (req: Request, res: Response) => {
+  delete = async (req: Request, res: Response) => {
     const { picId } = req.body;
     try {
       const picture = await this.pictureRepository.findOne(picId);
@@ -61,23 +63,7 @@ class PicturesController {
       }
     } catch (err) {
       console.log(err);
-    }
-  };
-
-  // API Calls
-  getAllPicturesByAlbum = async (req: Request, res: Response) => {
-    const { albumId } = req.params;
-    try {
-      const album = await this.albumRepository.findOne(albumId, {
-        relations: ['pictures'],
-      });
-
-      if (!album) {
-        return res.status(StatusCodes.BAD_REQUEST).send('Wrong album ID');
-      }
-      return res.send({ pictures: album.pictures });
-    } catch (err) {
-      res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(err.message);
+      return res.render('pictures/index', { error: err });
     }
   };
 }

@@ -1,30 +1,32 @@
-import { picturesController } from './controllers/pictures';
-import { categoriesController } from './controllers/categories';
-import { albumsController } from './controllers/albums';
-import { uploader } from './utils/uploader';
 import { Router } from 'express';
+import { albumsController } from './controllers/albums-controller';
+import { categoriesController } from './controllers/categories-controller';
+import { picturesController } from './controllers/pictures-controller';
+import { uploader } from './utils/uploader';
 
-///// API
-export const apiRouter = Router();
-apiRouter.get('/categories', categoriesController.getAllCategories);
-apiRouter.get('/pictures/:albumId', picturesController.getAllPicturesByAlbum);
-
-///// Classic Router (management only)
 export const router = Router();
-router.get('/', (req, res) => res.redirect('/categories'));
+
+// Home page
+router.get('/', categoriesController.indexView);
+
 // Categories
-router.get('/categories', categoriesController.getIndexView);
-router.get('/categories/new', categoriesController.getNewView);
+router.get('/categories', categoriesController.indexView);
+router.get('/categories/new', categoriesController.newView);
 router.post('/categories/create', categoriesController.create);
-router.get('/categories/edit/:id', categoriesController.getEditView);
+router.get('/categories/edit/:id', categoriesController.editView);
 router.post('/categories/update', categoriesController.update);
 router.get('/categories/delete/:id', categoriesController.delete);
+
 // Albums
-router.get('/albums/edit/:id', albumsController.getEditView);
+router.get('/albums', albumsController.indexView);
+router.get('/albums/new', albumsController.newView);
+router.post('/albums/create', albumsController.create);
+router.get('/albums/edit/:id', albumsController.editView);
 router.post('/albums/update', albumsController.update);
-router.post('/albums/new', albumsController.create);
+router.get('/albums/delete/:id', albumsController.delete);
 router.post('/albums/cover', albumsController.setCover);
+
 // Pictures
-router.get('/albums/:id/pictures', picturesController.getPicturesByAlbumView);
+router.get('/pictures/:albumId', picturesController.indexView);
 router.post('/pictures/upload', uploader.array('pictures'), picturesController.upload);
 router.post('/pictures/delete', picturesController.delete);

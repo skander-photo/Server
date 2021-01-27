@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>New category</h1>
+<a href="/categories" class="spacy">Back to categories</a>
+
+<form method="post" action="/categories/create">
+{% include "categories/_form.html" %}
+</form>
+{% endblock content %}

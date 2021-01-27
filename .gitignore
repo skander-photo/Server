@@ -1,9 +1,10 @@
 node_modules/
 dist/
-db/
+*.sqlite3
+*.db
 uploads/*.jpg
 uploads/*.png
 .log
 .cache
-.env
+*.env
 .DS_STORE

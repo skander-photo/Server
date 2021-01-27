@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>Edit album: {{album.title}}</h1>
+<a href="/albums" class="spacy">Back to albums</a>
+
+<form method="post" action="/albums/update">
+{% include "albums/_form.html" %}
+</form>
+<p>
+  <a href="/pictures/{{album.id}}">Manage pictures ({{album.pictures.length}})</a>
+</p>
+{% endblock content %}
