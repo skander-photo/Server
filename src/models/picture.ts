@@ -16,6 +16,6 @@ export class Picture {
   @ManyToOne(() => Album, (album) => album.pictures)
   album: Album;
 
-  @Column({ type: 'date', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 }
